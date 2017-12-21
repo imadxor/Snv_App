@@ -6,12 +6,14 @@
 package snv_app;
 
 import MesClasses.Cnx;
+import java.awt.Dimension;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -22,16 +24,44 @@ public class Acceuil extends javax.swing.JFrame {
     Connection cn=null;
     ResultSet rs=null;
     PreparedStatement pst=null;
+     DefaultTableModel tm;
+     
+     
      
     public Acceuil() {
+       
+        
         initComponents();
          cn=Cnx.connect();
-         cmd.setVisible(false);
-         String prod_select = produits.getSelectedItem().toString();
-         
+         tm=(DefaultTableModel)jTable1.getModel();
+         stock.setVisible(false);
          
     }
-
+public void show_user () {
+        
+        
+        tm=(DefaultTableModel)jTable1.getModel();
+        //cn=Cnx.connect();
+        
+       String sql = "select id,Nom_prod,qte,date_format(Date_entree,'%d-%m-%Y') from produit_entree " ;
+      
+        try {
+            
+            pst=cn.prepareStatement(sql);
+            rs=pst.executeQuery();
+            
+            while (rs.next()) {
+                if (rs.getInt(3)<300) {
+                tm.addRow(new Object[] {rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)});
+               
+            }
+               
+            }
+            
+        }catch (SQLException ex) {
+         Logger.getLogger(Tableau_de_produit.class.getName()).log(Level.SEVERE, null, ex);
+     }
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -41,84 +71,166 @@ public class Acceuil extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        commande = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         produits = new javax.swing.JComboBox<>();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        cmd = new javax.swing.JLabel();
+        btn_desk = new javax.swing.JButton();
+        btn_stk = new javax.swing.JButton();
+        stock = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Acceuil");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
+
+        jPanel1.setAlignmentX(100.0F);
+        jPanel1.setAlignmentY(100.0F);
+        jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "Numéro", "Produit", "Quantité", "Date commande"
+            }
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        jTable1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTable1MouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(jTable1);
+
+        commande.setFont(new java.awt.Font("Segoe Print", 1, 18)); // NOI18N
+        commande.setForeground(new java.awt.Color(255, 0, 0));
+        commande.setText("à commander");
 
         jLabel1.setText("Produit : ");
 
-        produits.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Produit 1", "Produit 2", "Produit 3", "Produit 4", "Produit 5", "Produit 6", "Produit 7", "Produit 8" }));
+        produits.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "k12", "k13", "k14", "k15", "k17", "K25", "K26", "K27", "K28", "K29", "K30", "K32", "K33", "K40", "K41", "K42", "K43", "K44", "K45", "K46", "K46 SP", "K47", "K48", "K49", "K50", "K51", "K52", "K53", "K54", "K54 A", "K55", "K55A", "K59", "K60", "K61", "K62", "K63", "K71", "K80", "K81", "K82", "K83", "K84", "Etiquettes  subventioné", "SACS KAKI", "SACS JAUNE", "SACS JAUNE K46", "SACS JAUNE K46 SP", "SACS JAUNE K47", "SACS JAUNE K48", "SACS JAUNE 55", "SACS RUMINANTS", "SACS LAPIN 25KG", "BOBINES PETITS FORMATS", "BOBINES GRANDS FORMATS", "GAZ", "FUEL", " " }));
         produits.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 produitsItemStateChanged(evt);
             }
         });
 
-        jButton1.setText("sortie");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btn_desk.setText("Sortie");
+        btn_desk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btn_deskActionPerformed(evt);
             }
         });
 
-        jButton2.setText("entree");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btn_stk.setText("Entrée");
+        btn_stk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btn_stkActionPerformed(evt);
             }
         });
 
-        cmd.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
-        cmd.setForeground(new java.awt.Color(242, 3, 9));
-        cmd.setText("A COMMANDE");
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(stock, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(76, 76, 76)
+                        .addComponent(jLabel1)
+                        .addGap(59, 59, 59)
+                        .addComponent(produits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(107, 107, 107)
+                        .addComponent(btn_desk, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(73, 73, 73)
+                        .addComponent(btn_stk, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(37, 37, 37)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 363, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(155, 155, 155)
+                        .addComponent(commande, javax.swing.GroupLayout.PREFERRED_SIZE, 156, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(35, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(commande)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 162, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(produits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(stock, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(29, 29, 29)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_desk)
+                    .addComponent(btn_stk))
+                .addGap(28, 28, 28))
+        );
+
+        jMenu1.setText("Menu");
+
+        jMenuItem1.setText("Menu pricipal");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(51, 51, 51)
-                        .addComponent(jLabel1)
-                        .addGap(37, 37, 37)
-                        .addComponent(produits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(67, 67, 67)
-                        .addComponent(cmd))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(65, 65, 65)
-                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(40, 40, 40)
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(123, Short.MAX_VALUE))
+                .addGap(200, 200, 200)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(199, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(produits, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(cmd))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 134, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(78, 78, 78))
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(36, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btn_stkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_stkActionPerformed
 
-
-            
-            
                
         Interface_stocke IS = new Interface_stocke();
 
@@ -136,7 +248,6 @@ public class Acceuil extends javax.swing.JFrame {
                      IS.prod_selected.setText(prod_select);
                      IS.ref.setText(rs.getString("id"));
                 }
-                
             }
                 
             }catch (SQLException ex) {
@@ -144,13 +255,12 @@ public class Acceuil extends javax.swing.JFrame {
         }
             
             IS.prod_selected.setText(prod_select);
-            
         
         IS.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btn_stkActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btn_deskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deskActionPerformed
         
         Destockage Des = new Destockage();
         
@@ -158,38 +268,78 @@ public class Acceuil extends javax.swing.JFrame {
         Des.prod_selected.setText(prod_select);
         Des.setVisible(true);
         this.dispose();
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btn_deskActionPerformed
 
     private void produitsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_produitsItemStateChanged
-       
-        String prod_select = produits.getSelectedItem().toString();
+
+        String prod = produits.getSelectedItem().toString();
         
-        String sql = "select * from produit_entree ";
+String sql = "select Nom_prod,qte from produit_entree where Nom_prod='"+prod+"'";
+
+        try {
+            
+             pst=cn.prepareStatement(sql);
+             rs=pst.executeQuery(sql);
+             
+            if (rs.next()) {
+                if (rs.getInt(2)==0) {
+                    btn_desk.setEnabled(false);
+                } else {
+                    btn_desk.setEnabled(true);
+                }
+            }       } catch (SQLException ex) {
+            Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }//GEN-LAST:event_produitsItemStateChanged
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        show_user ();
+        String prod_select = produits.getSelectedItem().toString();
+        String sql = "select * from produit_entree where Nom_prod='"+prod_select+"' ";
         
           try {
                 
                 pst=cn.prepareStatement(sql); 
             rs = pst.executeQuery(sql);
-            
-            if (rs.next()) { 
-               // if (rs.getString("Nom_prod").equals(prod_select) && rs.getInt(3)<100) {
-             //      cmd.setVisible(true);
-             pst.executeQuery(sql);
-                System.out.println(rs.getInt(3));    
-           // }
-                
-            }
                 
             }catch (SQLException ex) {
             Logger.getLogger(Interface_stocke.class.getName()).log(Level.SEVERE, null, ex);
         }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       
+        Menu_Admin ma = new Menu_Admin();
         
-    }//GEN-LAST:event_produitsItemStateChanged
+        ma.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
+       
+         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+        int sri = jTable1.getSelectedRow();
+        
+        stock.setText(model.getValueAt(sri,2).toString());
+        
+         try {
+            int i = Integer.parseInt(stock.getText());
+            if (i == 0) {
+              btn_desk.setEnabled(false);
+          } else {
+              btn_desk.setEnabled(true);
+          }
+            
+        }catch(NumberFormatException ex){
+}
+    }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
+        
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -217,15 +367,23 @@ public class Acceuil extends javax.swing.JFrame {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Acceuil().setVisible(true);
+                
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JLabel cmd;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
+    private javax.swing.JButton btn_desk;
+    private javax.swing.JButton btn_stk;
+    private javax.swing.JLabel commande;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable jTable1;
     public javax.swing.JComboBox<String> produits;
+    private javax.swing.JTextField stock;
     // End of variables declaration//GEN-END:variables
 }

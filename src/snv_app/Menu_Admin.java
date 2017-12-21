@@ -37,45 +37,41 @@ public class Menu_Admin extends javax.swing.JFrame {
         home = new javax.swing.JRadioButton();
         table = new javax.swing.JRadioButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         buttonGroup1.add(create_user);
-        create_user.setText("Creer un Utilisateur");
+        create_user.setText("Créer un compte utilisateur");
 
         buttonGroup1.add(home);
         home.setText("Acceuil");
 
         buttonGroup1.add(table);
-        table.setText("Affihicher le tableau de produits");
+        table.setText("Voir l'état du stock");
 
-        jButton1.setText("Acceder");
+        jButton1.setText("Accéder");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Reset");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(115, 115, 115)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(create_user)
-                    .addComponent(home)
-                    .addComponent(table))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(97, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(65, 65, 65)
-                .addComponent(jButton1)
-                .addGap(106, 106, 106))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(create_user)
+                            .addComponent(home)
+                            .addComponent(table)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(150, 150, 150)
+                        .addComponent(jButton1)))
+                .addContainerGap(130, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,11 +82,9 @@ public class Menu_Admin extends javax.swing.JFrame {
                 .addComponent(home)
                 .addGap(35, 35, 35)
                 .addComponent(table)
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addContainerGap(54, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(35, 35, 35))
         );
 
         pack();
@@ -158,7 +152,6 @@ public class Menu_Admin extends javax.swing.JFrame {
     private javax.swing.JRadioButton create_user;
     private javax.swing.JRadioButton home;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JRadioButton table;
     // End of variables declaration//GEN-END:variables
 }

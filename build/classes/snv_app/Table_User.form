@@ -170,13 +170,13 @@
           <Properties>
             <Property name="model" type="javax.swing.table.TableModel" editor="org.netbeans.modules.form.editors2.TableModelEditor">
               <Table columnCount="7" rowCount="0">
-                <Column editable="false" title="numero" type="java.lang.Object"/>
-                <Column editable="false" title="nom" type="java.lang.Object"/>
-                <Column editable="false" title="prenom" type="java.lang.Object"/>
+                <Column editable="false" title="Num&#xe9;ro" type="java.lang.Object"/>
+                <Column editable="false" title="Nom" type="java.lang.Object"/>
+                <Column editable="false" title="pr&#xe9;nom" type="java.lang.Object"/>
                 <Column editable="false" title="login" type="java.lang.Object"/>
-                <Column editable="false" title="passe" type="java.lang.Object"/>
-                <Column editable="false" title="depart" type="java.lang.Object"/>
-                <Column editable="true" title="permi" type="java.lang.Object"/>
+                <Column editable="false" title="Mot de passe" type="java.lang.Object"/>
+                <Column editable="false" title="D&#xe9;partement" type="java.lang.Object"/>
+                <Column editable="true" title="p&#xe9;rmission" type="java.lang.Object"/>
               </Table>
             </Property>
             <Property name="name" type="java.lang.String" value="" noResource="true"/>
@@ -214,7 +214,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Numero : "/>
+        <Property name="text" type="java.lang.String" value="Num&#xe9;ro : "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
@@ -224,7 +224,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Prenom : "/>
+        <Property name="text" type="java.lang.String" value="Pr&#xe9;nom : "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
@@ -244,7 +244,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel7">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Permission : "/>
+        <Property name="text" type="java.lang.String" value="P&#xe9;rmission : "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="num">

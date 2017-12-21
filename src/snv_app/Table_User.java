@@ -110,7 +110,7 @@ public class Table_User extends javax.swing.JFrame {
 
             },
             new String [] {
-                "numero", "nom", "prenom", "login", "passe", "depart", "permi"
+                "Numéro", "Nom", "prénom", "login", "Mot de passe", "Département", "pérmission"
             }
         ) {
             boolean[] canEdit = new boolean [] {
@@ -155,11 +155,11 @@ public class Table_User extends javax.swing.JFrame {
             }
         });
 
-        jLabel1.setText("Numero : ");
+        jLabel1.setText("Numéro : ");
 
         jLabel2.setText("Nom : ");
 
-        jLabel3.setText("Prenom : ");
+        jLabel3.setText("Prénom : ");
 
         jLabel4.setText("login : ");
 
@@ -167,7 +167,7 @@ public class Table_User extends javax.swing.JFrame {
 
         jLabel6.setText("Département : ");
 
-        jLabel7.setText("Permission : ");
+        jLabel7.setText("Pérmission : ");
 
         num.setEditable(false);
         num.setText(" ");
@@ -326,13 +326,13 @@ public class Table_User extends javax.swing.JFrame {
 
     private void btn_updActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_updActionPerformed
 
-        String id = num.getText();
+      String id = num.getText();
         String nomm = nom.getText();
-         String prenomm = prenom.getText();
-          String departt = depart.getSelectedItem().toString();
-          String log = login.getText();
-          String passee = passe.getText();
-           String permis = permi.getSelectedItem().toString();
+          String prenomm = prenom.getText();
+            String departt = depart.getSelectedItem().toString();
+              String log = login.getText();
+                String passee = passe.getText();
+                  String permis = permi.getSelectedItem().toString();
                                 
         String sql_upd = "update login set Nom='"+nomm+"',Prenom='"+prenomm+"',Depar='"+departt+"',login='"+log+"',pass='"+passee+"',user_statut='"+permis+"' where id="+id+"";
         
@@ -362,12 +362,26 @@ public class Table_User extends javax.swing.JFrame {
             
                 
                    // rs=pst.executeUpdate(sql);
-                    JOptionPane.showConfirmDialog(null,"Vous voullez supprimé cet compte ?","confirm",JOptionPane.YES_NO_CANCEL_OPTION);
-                    pst.executeUpdate(sql);
+                   int rep = JOptionPane.showConfirmDialog(null,"Vous voullez supprimé cet compte ?","confirm",JOptionPane.YES_NO_OPTION);
+                   
+                    if (rep == JOptionPane.YES_OPTION) {
+                   
+                   
+                   pst.executeUpdate(sql);
                     pst=cn.prepareStatement(sql);
                     JOptionPane.showMessageDialog(null,"Compte suprimé");
+                     
+     num.setText("");
+       nom.setText("");
+         prenom.setText("");
+           depart.setSelectedIndex(0);
+              login.setText("");
+                passe.setText("");
+                 permi.setSelectedIndex(0);
                     fetch();
-                  
+                   } else {
+                        setDefaultCloseOperation(Table_User.EXIT_ON_CLOSE);
+                    }
             
             
         }catch (SQLException ex) {

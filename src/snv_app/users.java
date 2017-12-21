@@ -22,7 +22,7 @@ public class users extends javax.swing.JFrame {
 
     Connection cn=null;
     ResultSet rs=null;
-     PreparedStatement pst=null;
+    PreparedStatement pst=null;
     public users() {
         initComponents();
          cn=Cnx.connect();
@@ -39,7 +39,7 @@ public class users extends javax.swing.JFrame {
 
         jComboBox1 = new javax.swing.JComboBox<>();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        reset = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         permiss = new javax.swing.JComboBox<>();
         jLabel2 = new javax.swing.JLabel();
@@ -52,21 +52,25 @@ public class users extends javax.swing.JFrame {
         prenom = new javax.swing.JTextField();
         login = new javax.swing.JTextField();
         pass = new javax.swing.JPasswordField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Creer un utilisateur");
 
         jLabel1.setText("Nom : ");
 
-        jButton1.setText("Reset");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        reset.setText("Vider les champs");
+        reset.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                resetActionPerformed(evt);
             }
         });
 
-        jButton2.setText("Creer");
+        jButton2.setText("Créer");
         jButton2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton2ActionPerformed(evt);
@@ -85,7 +89,21 @@ public class users extends javax.swing.JFrame {
 
         jLabel5.setText("Département :");
 
-        jLabel6.setText("Permission : ");
+        jLabel6.setText("Pérmission : ");
+
+        jMenu1.setText("Menu");
+
+        jMenuItem1.setText("Menu principal");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -96,16 +114,16 @@ public class users extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(42, 42, 42)
-                                .addComponent(jButton1))
                             .addComponent(jLabel5)
                             .addComponent(jLabel6))
-                        .addGap(48, 48, 48)
+                        .addGap(83, 83, 83)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(permiss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton2)
-                            .addComponent(depart, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(depart, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                                .addGap(1, 1, 1)
+                                .addComponent(permiss, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel1)
@@ -114,11 +132,17 @@ public class users extends javax.swing.JFrame {
                             .addComponent(jLabel4))
                         .addGap(80, 80, 80)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(pass, javax.swing.GroupLayout.DEFAULT_SIZE, 102, Short.MAX_VALUE)
-                            .addComponent(login)
+                            .addComponent(login, javax.swing.GroupLayout.DEFAULT_SIZE, 116, Short.MAX_VALUE)
                             .addComponent(prenom)
-                            .addComponent(nom))))
-                .addContainerGap(86, Short.MAX_VALUE))
+                            .addComponent(nom)
+                            .addComponent(pass))))
+                .addContainerGap(72, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(reset)
+                .addGap(54, 54, 54)
+                .addComponent(jButton2)
+                .addGap(85, 85, 85))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -147,11 +171,11 @@ public class users extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(permiss, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel6))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 95, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 49, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2))
-                .addGap(71, 71, 71))
+                    .addComponent(jButton2)
+                    .addComponent(reset))
+                .addGap(96, 96, 96))
         );
 
         pack();
@@ -169,19 +193,23 @@ public class users extends javax.swing.JFrame {
            Table_User tp = new Table_User();
            
            String sql = "insert into login values (id,'"+nomm+"','"+prenomm+"','"+departt+"','"+log+"','"+passe+"','"+per+"') " ;
-           
+           String sql_slc = "select login from login" ; 
             try {
                 
+                 pst=cn.prepareStatement(sql_slc);
+            rs=pst.executeQuery(sql_slc);
+                        
+                        
                 if (nomm.equals("")) {
                       JOptionPane.showMessageDialog(null,"entrer le nom ","Avr",JOptionPane.ERROR_MESSAGE);
                       nom.requestFocus();
                 } else if (prenomm.equals("")) {
                     JOptionPane.showMessageDialog(null,"entrer le prenom ","Avr",JOptionPane.ERROR_MESSAGE);
                       prenom.requestFocus();
-                } else if (login.equals("")) {
+                } else if (log.equals("")) {
                 JOptionPane.showMessageDialog(null,"entrer un login ","Avr",JOptionPane.ERROR_MESSAGE);
                       login.requestFocus();
-            } else if (pass.equals("")) {
+            } else if (passe.equals("")) {
                 JOptionPane.showMessageDialog(null,"entrer un mot de passe ","Avr",JOptionPane.ERROR_MESSAGE);
                       pass.requestFocus();
             } else if (departt.equals(" ")) {
@@ -190,30 +218,27 @@ public class users extends javax.swing.JFrame {
             }  else if (per.equals(" ")) {
                 JOptionPane.showMessageDialog(null,"choiser la permission","Avr",JOptionPane.ERROR_MESSAGE);
                       permiss.requestFocus();
-            } else {
-                
-                
+            }else if (rs.next()) {
+            
+                if (rs.getString("login").equals(log))
+                {
+                    JOptionPane.showMessageDialog(null,"cet login deja existe essayer un autre svp","Avr",JOptionPane.ERROR_MESSAGE);
+             login.requestFocus();
+                }else {
                 
              pst=cn.prepareStatement(sql);
              pst.executeUpdate(sql);
              JOptionPane.showMessageDialog(null,"Utilisateur ajouté");
              tp.setVisible(true);
              this.dispose();
-             
-        nom.setText("");
-        prenom.setText("");
-        login.setText("");
-        pass.setText("");
-        depart.setSelectedIndex(0);
-        permiss.setSelectedIndex(0);
-             
+                }
             }
     } catch (SQLException ex) {
             Logger.getLogger(Interface_stocke.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_jButton2ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_resetActionPerformed
         
         nom.setText("");
         prenom.setText("");
@@ -221,7 +246,14 @@ public class users extends javax.swing.JFrame {
         pass.setText("");
         depart.setSelectedIndex(0);
         permiss.setSelectedIndex(0);
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_resetActionPerformed
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+       
+        Menu_Admin ma = new Menu_Admin();
+        ma.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -260,7 +292,6 @@ public class users extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> depart;
-    private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
@@ -269,10 +300,14 @@ public class users extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JTextField login;
     private javax.swing.JTextField nom;
     private javax.swing.JPasswordField pass;
     private javax.swing.JComboBox<String> permiss;
     private javax.swing.JTextField prenom;
+    private javax.swing.JButton reset;
     // End of variables declaration//GEN-END:variables
 }

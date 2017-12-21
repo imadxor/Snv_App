@@ -98,11 +98,12 @@
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
         <Property name="text" type="java.lang.String" value="Nom : "/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Prenom : "/>
+        <Property name="text" type="java.lang.String" value="Pr&#xe9;nom : "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel3">
@@ -112,7 +113,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel4">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Passe : "/>
+        <Property name="text" type="java.lang.String" value="Mot de passe :"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel5">
@@ -122,7 +123,7 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel6">
       <Properties>
-        <Property name="text" type="java.lang.String" value="Permission : "/>
+        <Property name="text" type="java.lang.String" value="P&#xe9;rmission : "/>
       </Properties>
     </Component>
     <Component class="javax.swing.JTextField" name="nom">

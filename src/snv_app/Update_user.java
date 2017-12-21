@@ -44,16 +44,17 @@ public class Update_user extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setText("Nom : ");
+        jLabel1.setToolTipText("");
 
-        jLabel2.setText("Prenom : ");
+        jLabel2.setText("Prénom : ");
 
         jLabel3.setText("Login : ");
 
-        jLabel4.setText("Passe : ");
+        jLabel4.setText("Mot de passe :");
 
         jLabel5.setText("Département : ");
 
-        jLabel6.setText("Permission : ");
+        jLabel6.setText("Pérmission : ");
 
         jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " " }));
 

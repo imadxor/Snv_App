@@ -6,6 +6,7 @@
 package snv_app;
 
 import MesClasses.Cnx;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -78,6 +79,9 @@ public class Interface_stocke extends javax.swing.JFrame {
         fourni = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         ref = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        qte_stk = new javax.swing.JTextField();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         addWindowListener(new java.awt.event.WindowAdapter() {
@@ -98,10 +102,26 @@ public class Interface_stocke extends javax.swing.JFrame {
         });
 
         btn_reset.setText("Annuler");
+        btn_reset.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_resetActionPerformed(evt);
+            }
+        });
 
         jLabel2.setText("Date : ");
 
         jLabel3.setText("Quantité");
+
+        quantite.addFocusListener(new java.awt.event.FocusAdapter() {
+            public void focusLost(java.awt.event.FocusEvent evt) {
+                quantiteFocusLost(evt);
+            }
+        });
+        quantite.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                quantiteKeyTyped(evt);
+            }
+        });
 
         Date_entree.setDateFormatString("dd-MM-yyyy");
 
@@ -110,6 +130,17 @@ public class Interface_stocke extends javax.swing.JFrame {
         jLabel5.setText("Reference du produit");
 
         ref.setEditable(false);
+
+        jLabel6.setText("quanté en stock : ");
+
+        qte_stk.setEditable(false);
+
+        jButton1.setText("<===");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,23 +154,30 @@ public class Interface_stocke extends javax.swing.JFrame {
                     .addComponent(jLabel2)
                     .addComponent(btn_reset)
                     .addComponent(jLabel4)
-                    .addComponent(jLabel5))
+                    .addComponent(jLabel5)
+                    .addComponent(jLabel6))
                 .addGap(45, 45, 45)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(quantite, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(fourni, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(Date_entree, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
-                    .addComponent(prod_selected)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(23, 23, 23)
-                        .addComponent(btn_stock))
-                    .addComponent(ref, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(quantite, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(fourni, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(Date_entree, javax.swing.GroupLayout.DEFAULT_SIZE, 149, Short.MAX_VALUE)
+                        .addComponent(prod_selected)
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(23, 23, 23)
+                            .addComponent(btn_stock))
+                        .addComponent(ref, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(qte_stk, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(186, Short.MAX_VALUE))
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jButton1)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(20, 20, 20)
+                .addComponent(jButton1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(prod_selected, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -147,10 +185,14 @@ public class Interface_stocke extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(ref, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 24, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2)
                     .addComponent(Date_entree, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 27, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(qte_stk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
@@ -177,12 +219,13 @@ public class Interface_stocke extends javax.swing.JFrame {
         String produit = prod_selected.getText();
         int reference  = Integer.parseInt(ref.getText());
         String Date    = sdf.format(Date_entree.getDate());
-        String    qte     =  quantite.getText();
+        String qte     =  quantite.getText();
         String Fornis  = fourni.getText().toUpperCase();
+        String iidd = ref.getText();
         
                
                 String sql = "insert into produit_entree values ("+reference+",'"+produit+"','"+qte+"','"+Date+"','"+Fornis+"')";
-                String sql_upd = "update produit_entree set qte=qte+"+qte+",Date_entree='"+Date+"',fournisseur='"+Fornis+"' where id="+reference+" and Nom_prod='"+produit+"' ";
+                String sql_upd = "update produit_entree set qte=qte+"+qte+",Date_entree='"+Date+"',fournisseur='"+Fornis+"' where id="+reference+" ";
                 String sql_slc = "select * from produit_entree";
                 
             try {
@@ -191,26 +234,29 @@ public class Interface_stocke extends javax.swing.JFrame {
                  pst=cn.prepareStatement(sql);
                  pst2=cn.prepareStatement(sql_upd);
                    pst3=cn.prepareStatement(sql_slc);
+                   rs2=pst.executeQuery(sql_slc);
                  rs2=pst3.executeQuery(sql_slc);
                  
                  if (quantite.getText().equals("") ) {
-                        JOptionPane.showMessageDialog(null,"choiser une quantité svp","Attention",JOptionPane.ERROR_MESSAGE);
+                        JOptionPane.showMessageDialog(null,"Veuillez entrer une quantité","Attention",JOptionPane.ERROR_MESSAGE);
                        quantite.requestFocus();
                  }
                  
                  else if (fourni.getText().equals("")) {
-                      JOptionPane.showMessageDialog(null,"choiser un fournisseur svp","Attention",JOptionPane.ERROR_MESSAGE);
+                      JOptionPane.showMessageDialog(null,"Veuillez entrer un fournisseur","Attention",JOptionPane.ERROR_MESSAGE);
                       fourni.requestFocus();
                  
                  } else 
-                     if (rs2.next()) {
+                     if (rs2.next()) 
+                 {
                          if ((rs2.getInt(1)==reference))
                          {
                            pst2.executeUpdate(sql_upd);
                            JOptionPane.showMessageDialog(null,"produit modifié");
                            tdp.setVisible(true);
                            this.dispose();
-                         } else {
+                         } 
+                         else {
                           pst.executeUpdate(sql);
              JOptionPane.showMessageDialog(null,"produit ajouté");
              tdp.setVisible(true);
@@ -229,6 +275,35 @@ public class Interface_stocke extends javax.swing.JFrame {
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
         // TODO add your handling code here:
     }//GEN-LAST:event_formWindowOpened
+
+    private void quantiteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantiteKeyTyped
+        
+         char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || c==KeyEvent.VK_BACK_SPACE)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_quantiteKeyTyped
+
+    private void btn_resetActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_resetActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_resetActionPerformed
+
+    private void quantiteFocusLost(java.awt.event.FocusEvent evt) {//GEN-FIRST:event_quantiteFocusLost
+        /*
+        int qte_stc = Integer.parseInt(qte_stk.getText());
+         int qte = Integer.parseInt(quantite.getText());
+         int gg = (qte+qte_stc);
+         
+        */
+    }//GEN-LAST:event_quantiteFocusLost
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+        Tableau_de_produit tdp = new Tableau_de_produit();
+        tdp.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -270,12 +345,15 @@ public class Interface_stocke extends javax.swing.JFrame {
     private javax.swing.JButton btn_reset;
     private javax.swing.JButton btn_stock;
     private javax.swing.JTextField fourni;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     public javax.swing.JTextField prod_selected;
+    public javax.swing.JTextField qte_stk;
     private javax.swing.JTextField quantite;
     public javax.swing.JTextField ref;
     // End of variables declaration//GEN-END:variables

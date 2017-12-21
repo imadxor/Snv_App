@@ -6,6 +6,7 @@
 package snv_app;
 
 import MesClasses.Cnx;
+import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -32,11 +33,11 @@ public class Destockage extends javax.swing.JFrame {
         initComponents();
         cache_qte.setVisible(false);
         cn=Cnx.connect();
+        String nom_pr = prod_selected.getText();
+        //int idd = Integer.parseInt(id_selected.getText());
          
-        
-               
-                
-         String calc_qte = "select qte from produit_entree where id=1";
+           
+         String calc_qte = "select qte from produit_entree where Nom_prod='"+nom_pr+"'";
          
          try {
              
@@ -75,10 +76,21 @@ public class Destockage extends javax.swing.JFrame {
         Date_sortie = new com.toedter.calendar.JDateChooser();
         qte_sortie = new javax.swing.JTextField();
         btn_des = new javax.swing.JButton();
-        reset_sortie = new javax.swing.JButton();
         cache_qte = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        qte_stk = new javax.swing.JTextField();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        jMenu1 = new javax.swing.JMenu();
+        jMenuItem1 = new javax.swing.JMenuItem();
+        jMenuItem2 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Destockage");
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowOpened(java.awt.event.WindowEvent evt) {
+                formWindowOpened(evt);
+            }
+        });
 
         jLabel1.setText("Produit Sélectionné :");
 
@@ -94,6 +106,12 @@ public class Destockage extends javax.swing.JFrame {
 
         Date_sortie.setDateFormatString("dd-MM-yyyy");
 
+        qte_sortie.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyTyped(java.awt.event.KeyEvent evt) {
+                qte_sortieKeyTyped(evt);
+            }
+        });
+
         btn_des.setText("Destocker");
         btn_des.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -101,15 +119,44 @@ public class Destockage extends javax.swing.JFrame {
             }
         });
 
-        reset_sortie.setText("Annuler");
+        jLabel5.setText("Quanté en stock");
+
+        qte_stk.setEditable(false);
+
+        jMenu1.setText("Menu");
+
+        jMenuItem1.setText("Tableau de produit");
+        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem1ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem1);
+
+        jMenuItem2.setText("Menu pricipal");
+        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem2ActionPerformed(evt);
+            }
+        });
+        jMenu1.add(jMenuItem2);
+
+        jMenuBar1.add(jMenu1);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(cache_qte, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
+            .addGroup(layout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel5)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jLabel1)
                         .addGap(29, 29, 29)
@@ -118,10 +165,7 @@ public class Destockage extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(11, 11, 11)
-                                .addComponent(reset_sortie)))
+                            .addComponent(jLabel4))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addComponent(Date_sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -129,12 +173,9 @@ public class Destockage extends javax.swing.JFrame {
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(id_selected)
                                 .addGap(79, 79, 79))
-                            .addComponent(qte_sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 61, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(183, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cache_qte, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                            .addComponent(qte_sortie)
+                            .addComponent(qte_stk))))
+                .addContainerGap(242, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -152,17 +193,23 @@ public class Destockage extends javax.swing.JFrame {
                         .addGap(25, 25, 25)
                         .addComponent(jLabel3))
                     .addComponent(Date_sortie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(25, 25, 25)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel4)
-                    .addComponent(qte_sortie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 50, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_des)
-                    .addComponent(reset_sortie))
-                .addGap(18, 18, 18)
-                .addComponent(cache_qte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(cache_qte, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(37, 37, 37))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel5)
+                            .addComponent(qte_stk, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(19, 19, 19)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(qte_sortie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jLabel4))
+                        .addGap(18, 18, 18)
+                        .addComponent(btn_des)
+                        .addContainerGap(90, Short.MAX_VALUE))))
         );
 
         pack();
@@ -170,45 +217,41 @@ public class Destockage extends javax.swing.JFrame {
 
     private void btn_desActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_desActionPerformed
        
+        Tableau_de_produit tp = new Tableau_de_produit();
         
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
         String produit  = prod_selected.getText();
         int reference   = Integer.parseInt(id_selected.getText());
         String Date     = sdf.format(Date_sortie.getDate());
-        int    qte   = Integer.parseInt(qte_sortie.getText()) ;
-        int GetQnt   = Integer.parseInt(cache_qte.getText());
-       
-       
+        int    qte   = Integer.parseInt(qte_sortie.getText());
+        int GetQnt   = Integer.parseInt(qte_stk.getText());
                
-               
-                String sql = "insert into produit_sortie values ("+reference+",'"+produit+"','"+qte+"','"+Date+"')";
-                String sqlupd = "update produit_entree set qte=qte-"+qte+" where Nom_prod='"+produit+"' ";
+                String sql = " replace into produit_sortie values ("+reference+",'"+produit+"',"+qte+",'"+Date+"')";
+                String sqlupd = "update produit_entree set qte=qte-"+qte+",Date_entree='"+Date+"' where Nom_prod='"+produit+"' and id="+reference+" ";
                 
             try {
                 
-               
-                
                  pst=cn.prepareStatement(sql);
-                 pst3=cn.prepareStatement(sqlupd);
+                 pst3=cn.prepareStatement(sqlupd); 
                  
-                 
-                 if (qte_sortie.getText().equals("") ) {
-                        JOptionPane.showMessageDialog(null,"choiser une quantité svp","Attention",JOptionPane.ERROR_MESSAGE);
+                 if ( qte_sortie.getText().equals("")) {
+                       JOptionPane.showMessageDialog(null,"Veuillez choisir une quantité","Attention",JOptionPane.ERROR_MESSAGE);
                        qte_sortie.requestFocus();
                  }
                  
                  else if (GetQnt < qte) {
                      
-                     JOptionPane.showMessageDialog(null,"La quantité que vous avez entre ('"+qte+"') plus grande que la quantité en stock ('"+GetQnt+"')","Opération impossible",JOptionPane.ERROR_MESSAGE);
+                     JOptionPane.showMessageDialog(null,"Quantité ('"+qte+"') supérieure à la quantité en stock ('"+GetQnt+"')","Opération impossible",JOptionPane.ERROR_MESSAGE);
                        qte_sortie.requestFocus();
                      
                  }else {
                  
             
-            pst.executeUpdate();  
+            pst.executeUpdate(sql);  
              pst3.executeUpdate(sqlupd);
-             JOptionPane.showMessageDialog(null,"Opeation termineé");
-             
+             JOptionPane.showMessageDialog(null,"Opération terminée");
+             tp.setVisible(true);
+             this.dispose();
                         }
                  
                  
@@ -217,6 +260,52 @@ public class Destockage extends javax.swing.JFrame {
             Logger.getLogger(Interface_stocke.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_btn_desActionPerformed
+
+    private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
+        
+         String nom_pr = prod_selected.getText();
+        
+          String calc_get = "select id,Nom_prod from produit_entree where Nom_prod='"+nom_pr+"'";      
+                
+           try {
+             
+             
+             
+              pst2=cn.prepareStatement(calc_get);
+               rs2 = pst2.executeQuery();
+               
+               while (rs2.next()) {
+                   if (rs2.getString("Nom_prod").equals(nom_pr)) {
+                   id_selected.setText(""+rs2.getString("id"));
+               }}
+             
+         }catch (SQLException exp) {
+            Logger.getLogger(Interface_stocke.class.getName()).log(Level.SEVERE, null, exp);
+        }
+    }//GEN-LAST:event_formWindowOpened
+
+    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+        
+        Tableau_de_produit tp = new Tableau_de_produit();
+        tp.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem1ActionPerformed
+
+    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
+        
+        Menu_Admin ma = new Menu_Admin();
+        ma.setVisible(true);
+        this.dispose();
+    }//GEN-LAST:event_jMenuItem2ActionPerformed
+
+    private void qte_sortieKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_qte_sortieKeyTyped
+       
+        char c = evt.getKeyChar();
+        if (!(Character.isDigit(c) || c==KeyEvent.VK_BACK_SPACE)) {
+            getToolkit().beep();
+            evt.consume();
+        }
+    }//GEN-LAST:event_qte_sortieKeyTyped
 
     /**
      * @param args the command line arguments
@@ -256,14 +345,19 @@ public class Destockage extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.toedter.calendar.JDateChooser Date_sortie;
     private javax.swing.JButton btn_des;
-    private javax.swing.JTextField cache_qte;
+    public javax.swing.JTextField cache_qte;
     public javax.swing.JTextField id_selected;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JMenuItem jMenuItem1;
+    private javax.swing.JMenuItem jMenuItem2;
     public javax.swing.JTextField prod_selected;
     private javax.swing.JTextField qte_sortie;
-    private javax.swing.JButton reset_sortie;
+    public javax.swing.JTextField qte_stk;
     // End of variables declaration//GEN-END:variables
 }
