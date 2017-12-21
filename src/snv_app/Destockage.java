@@ -79,6 +79,8 @@ public class Destockage extends javax.swing.JFrame {
         cache_qte = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
         qte_stk = new javax.swing.JTextField();
+        jLabel6 = new javax.swing.JLabel();
+        fourni_des = new javax.swing.JTextField();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -123,6 +125,8 @@ public class Destockage extends javax.swing.JFrame {
 
         qte_stk.setEditable(false);
 
+        jLabel6.setText("Fournisseur");
+
         jMenu1.setText("Menu");
 
         jMenuItem1.setText("Tableau de produit");
@@ -165,16 +169,18 @@ public class Destockage extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel2)
                             .addComponent(jLabel3)
-                            .addComponent(jLabel4))
+                            .addComponent(jLabel4)
+                            .addComponent(jLabel6))
                         .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(Date_sortie, javax.swing.GroupLayout.PREFERRED_SIZE, 138, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(Date_sortie, javax.swing.GroupLayout.DEFAULT_SIZE, 138, Short.MAX_VALUE)
                             .addComponent(btn_des)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(id_selected)
                                 .addGap(79, 79, 79))
                             .addComponent(qte_sortie)
-                            .addComponent(qte_stk))))
+                            .addComponent(qte_stk)
+                            .addComponent(fourni_des))))
                 .addContainerGap(242, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -208,8 +214,12 @@ public class Destockage extends javax.swing.JFrame {
                             .addComponent(qte_sortie, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(jLabel4))
                         .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel6)
+                            .addComponent(fourni_des, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 17, Short.MAX_VALUE)
                         .addComponent(btn_des)
-                        .addContainerGap(90, Short.MAX_VALUE))))
+                        .addGap(53, 53, 53))))
         );
 
         pack();
@@ -225,8 +235,9 @@ public class Destockage extends javax.swing.JFrame {
         String Date     = sdf.format(Date_sortie.getDate());
         int    qte   = Integer.parseInt(qte_sortie.getText());
         int GetQnt   = Integer.parseInt(qte_stk.getText());
+        String fourni = fourni_des.getText();
                
-                String sql = " replace into produit_sortie values ("+reference+",'"+produit+"',"+qte+",'"+Date+"')";
+                String sql = "replace into produit_sortie values ("+reference+",'"+produit+"',"+qte+",'"+Date+"','"+fourni+"')";
                 String sqlupd = "update produit_entree set qte=qte-"+qte+",Date_entree='"+Date+"' where Nom_prod='"+produit+"' and id="+reference+" ";
                 
             try {
@@ -252,9 +263,7 @@ public class Destockage extends javax.swing.JFrame {
              JOptionPane.showMessageDialog(null,"Opération terminée");
              tp.setVisible(true);
              this.dispose();
-                        }
-                 
-                 
+                        }       
         
     } catch (SQLException ex) {
             Logger.getLogger(Interface_stocke.class.getName()).log(Level.SEVERE, null, ex);
@@ -346,12 +355,14 @@ public class Destockage extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser Date_sortie;
     private javax.swing.JButton btn_des;
     public javax.swing.JTextField cache_qte;
+    public javax.swing.JTextField fourni_des;
     public javax.swing.JTextField id_selected;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
