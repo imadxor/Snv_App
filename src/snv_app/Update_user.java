@@ -42,6 +42,7 @@ public class Update_user extends javax.swing.JFrame {
         btn_save = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Modifier utilisateur");
 
         jLabel1.setText("Nom : ");
         jLabel1.setToolTipText("");

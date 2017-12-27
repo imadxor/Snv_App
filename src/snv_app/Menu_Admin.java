@@ -5,6 +5,8 @@
  */
 package snv_app;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import javax.swing.JOptionPane;
 import snv_app.Acceuil;
 import snv_app.Tableau_de_produit;
@@ -21,6 +23,8 @@ public class Menu_Admin extends javax.swing.JFrame {
      */
     public Menu_Admin() {
         initComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2,dim.height/2-this.getSize().height/2);
     }
 
     /**
@@ -39,16 +43,22 @@ public class Menu_Admin extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Meni admin");
 
         buttonGroup1.add(create_user);
+        create_user.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         create_user.setText("Créer un compte utilisateur");
 
         buttonGroup1.add(home);
+        home.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         home.setText("Acceuil");
 
         buttonGroup1.add(table);
+        table.setFont(new java.awt.Font("Century Gothic", 3, 14)); // NOI18N
         table.setText("Voir l'état du stock");
 
+        jButton1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 51, 204));
         jButton1.setText("Accéder");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -71,7 +81,7 @@ public class Menu_Admin extends javax.swing.JFrame {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(150, 150, 150)
                         .addComponent(jButton1)))
-                .addContainerGap(130, Short.MAX_VALUE))
+                .addContainerGap(74, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -82,7 +92,7 @@ public class Menu_Admin extends javax.swing.JFrame {
                 .addComponent(home)
                 .addGap(35, 35, 35)
                 .addComponent(table)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 52, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
                 .addComponent(jButton1)
                 .addGap(35, 35, 35))
         );

@@ -7,6 +7,7 @@ package snv_app;
 
 import MesClasses.Cnx;
 import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -21,47 +22,47 @@ import javax.swing.table.DefaultTableModel;
  */
 public class Acceuil extends javax.swing.JFrame {
 
-    Connection cn=null;
-    ResultSet rs=null;
-    PreparedStatement pst=null;
-     DefaultTableModel tm;
-     
-     
-     
+    Connection cn = null;
+    ResultSet rs = null;
+    PreparedStatement pst = null;
+    DefaultTableModel tm;
+
     public Acceuil() {
-       
-        
+
         initComponents();
-         cn=Cnx.connect();
-         tm=(DefaultTableModel)jTable1.getModel();
-         stock.setVisible(false);
-         
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width / 2 - this.getSize().width / 2, dim.height / 2 - this.getSize().height / 2);
+        cn = Cnx.connect();
+        tm = (DefaultTableModel) jTable1.getModel();
+        stock.setVisible(false);
+
     }
-public void show_user () {
-        
-        
-        tm=(DefaultTableModel)jTable1.getModel();
+
+    public void show_user() {
+
+        tm = (DefaultTableModel) jTable1.getModel();
         //cn=Cnx.connect();
-        
-       String sql = "select id,Nom_prod,qte,date_format(Date_entree,'%d-%m-%Y') from produit_entree " ;
-      
+
+        String sql = "select id,Nom_prod,qte,date_format(Date_entree,'%d-%m-%Y') from produit_entree ";
+
         try {
-            
-            pst=cn.prepareStatement(sql);
-            rs=pst.executeQuery();
-            
+
+            pst = cn.prepareStatement(sql);
+            rs = pst.executeQuery();
+
             while (rs.next()) {
-                if (rs.getInt(3)<300) {
-                tm.addRow(new Object[] {rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4)});
-               
+                if (rs.getInt(3) < 300) {
+                    tm.addRow(new Object[]{rs.getString(1), rs.getString(2), rs.getString(3), rs.getString(4)});
+
+                }
+
             }
-               
-            }
-            
-        }catch (SQLException ex) {
-         Logger.getLogger(Tableau_de_produit.class.getName()).log(Level.SEVERE, null, ex);
-     }
-}
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Tableau_de_produit.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -96,6 +97,7 @@ public void show_user () {
         jPanel1.setAlignmentY(100.0F);
         jPanel1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
+        jTable1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -123,8 +125,10 @@ public void show_user () {
         commande.setForeground(new java.awt.Color(255, 0, 0));
         commande.setText("à commander");
 
+        jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Produit : ");
 
+        produits.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         produits.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "k12", "k13", "k14", "k15", "k17", "K25", "K26", "K27", "K28", "K29", "K30", "K32", "K33", "K40", "K41", "K42", "K43", "K44", "K45", "K46", "K46 SP", "K47", "K48", "K49", "K50", "K51", "K52", "K53", "K54", "K54 A", "K55", "K55A", "K59", "K60", "K61", "K62", "K63", "K71", "K80", "K81", "K82", "K83", "K84", "Etiquettes  subventioné", "SACS KAKI", "SACS JAUNE", "SACS JAUNE K46", "SACS JAUNE K46 SP", "SACS JAUNE K47", "SACS JAUNE K48", "SACS JAUNE 55", "SACS RUMINANTS", "SACS LAPIN 25KG", "BOBINES PETITS FORMATS", "BOBINES GRANDS FORMATS", "GAZ", "FUEL", " " }));
         produits.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
@@ -132,6 +136,7 @@ public void show_user () {
             }
         });
 
+        btn_desk.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_desk.setText("Sortie");
         btn_desk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -139,6 +144,7 @@ public void show_user () {
             }
         });
 
+        btn_stk.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         btn_stk.setText("Entrée");
         btn_stk.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -231,39 +237,38 @@ public void show_user () {
 
     private void btn_stkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_stkActionPerformed
 
-               
-        Interface_stocke IS = new Interface_stocke();
+        ajout_produit AP = new ajout_produit();
 
-            String prod_select = produits.getSelectedItem().toString();
-            
-            String sql = "select id,Nom_prod from produit_entree where Nom_prod='"+prod_select+"'";
-            
-            try {
-                
-                pst=cn.prepareStatement(sql); 
+        String prod_select = produits.getSelectedItem().toString();
+
+        String sql = "select id,Nom_prod from produit_entree where Nom_prod='" + prod_select + "'";
+
+        try {
+
+            pst = cn.prepareStatement(sql);
             rs = pst.executeQuery(sql);
-            
-            if (rs.next()) { 
+
+            if (rs.next()) {
                 if (rs.getString("Nom_prod").equals(prod_select)) {
-                     IS.prod_selected.setText(prod_select);
-                     IS.ref.setText(rs.getString("id"));
+                    AP.prod_selected.setText(prod_select);
+                    AP.ref.setText(rs.getString("id"));
                 }
             }
-                
-            }catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             Logger.getLogger(Interface_stocke.class.getName()).log(Level.SEVERE, null, ex);
         }
-            
-            IS.prod_selected.setText(prod_select);
-        
-        IS.setVisible(true);
+
+        AP.prod_selected.setText(prod_select);
+
+        AP.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btn_stkActionPerformed
 
     private void btn_deskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_deskActionPerformed
-        
+
         Destockage Des = new Destockage();
-        
+
         String prod_select = produits.getSelectedItem().toString();
         Des.prod_selected.setText(prod_select);
         Des.setVisible(true);
@@ -273,73 +278,74 @@ public void show_user () {
     private void produitsItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_produitsItemStateChanged
 
         String prod = produits.getSelectedItem().toString();
-        
-String sql = "select Nom_prod,qte from produit_entree where Nom_prod='"+prod+"'";
+
+        String sql = "select Nom_prod,qte from produit_entree where Nom_prod='" + prod + "'";
 
         try {
-            
-             pst=cn.prepareStatement(sql);
-             rs=pst.executeQuery(sql);
-             
+
+            pst = cn.prepareStatement(sql);
+            rs = pst.executeQuery(sql);
+
             if (rs.next()) {
-                if (rs.getInt(2)==0) {
+                if (rs.getInt(2) == 0) {
                     btn_desk.setEnabled(false);
                 } else {
                     btn_desk.setEnabled(true);
                 }
-            }       } catch (SQLException ex) {
+            }
+        } catch (SQLException ex) {
             Logger.getLogger(Acceuil.class.getName()).log(Level.SEVERE, null, ex);
         }
 
     }//GEN-LAST:event_produitsItemStateChanged
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        show_user ();
+        show_user();
         String prod_select = produits.getSelectedItem().toString();
-        String sql = "select * from produit_entree where Nom_prod='"+prod_select+"' ";
-        
-          try {
-                
-                pst=cn.prepareStatement(sql); 
+        String sql = "select * from produit_entree where Nom_prod='" + prod_select + "' ";
+
+        try {
+
+            pst = cn.prepareStatement(sql);
             rs = pst.executeQuery(sql);
-                
-            }catch (SQLException ex) {
+
+        } catch (SQLException ex) {
             Logger.getLogger(Interface_stocke.class.getName()).log(Level.SEVERE, null, ex);
         }
     }//GEN-LAST:event_formWindowOpened
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-       
+
         Menu_Admin ma = new Menu_Admin();
-        
+
         ma.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
     private void jTable1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTable1MouseClicked
-       
-         DefaultTableModel model = (DefaultTableModel)jTable1.getModel();
+
+        DefaultTableModel model = (DefaultTableModel) jTable1.getModel();
         int sri = jTable1.getSelectedRow();
-        
-        stock.setText(model.getValueAt(sri,2).toString());
-        
-         try {
+
+        stock.setText(model.getValueAt(sri, 2).toString());
+
+        try {
             int i = Integer.parseInt(stock.getText());
             if (i == 0) {
-              btn_desk.setEnabled(false);
-          } else {
-              btn_desk.setEnabled(true);
-          }
-            
-        }catch(NumberFormatException ex){
-}
+                btn_desk.setEnabled(false);
+            } else {
+                btn_desk.setEnabled(true);
+            }
+
+        } catch (NumberFormatException ex) {
+        }
     }//GEN-LAST:event_jTable1MouseClicked
 
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-        
+
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
         /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
@@ -367,7 +373,7 @@ String sql = "select Nom_prod,qte from produit_entree where Nom_prod='"+prod+"'"
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new Acceuil().setVisible(true);
-                
+
             }
         });
     }

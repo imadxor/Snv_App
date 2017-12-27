@@ -6,6 +6,8 @@
 package snv_app;
 
 import MesClasses.Cnx;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -25,36 +27,16 @@ public class Interface_stocke extends javax.swing.JFrame {
     Connection cn=null;
     ResultSet rs=null;
     ResultSet rs2=null;
+    ResultSet rs3=null;
     PreparedStatement pst=null;
     PreparedStatement pst2=null;
     PreparedStatement pst3=null;
     
     public Interface_stocke() {
         initComponents();
+        Dimension dim = Toolkit.getDefaultToolkit().getScreenSize();
+        this.setLocation(dim.width/2-this.getSize().width/2,dim.height/2-this.getSize().height/2);
          cn=Cnx.connect();
-         
-        
-         
-         String sql="SELECT MAX(id)+1 FROM produit_entree ";
-        
-        try {
-           
-           pst=cn.prepareStatement(sql); 
-            rs = pst.executeQuery(sql);
-            
-            if (rs.next()) {
-                if(rs.getInt(1)==0){
-                     ref.setText("1");
-                }
-                
-                else{
-                     ref.setText(""+rs.getInt(1));
-                }                  
-            }
-           
-        } catch (SQLException ex) {
-            Logger.getLogger(Interface_stocke.class.getName()).log(Level.SEVERE, null, ex);
-        }
         
     }
 
@@ -84,6 +66,7 @@ public class Interface_stocke extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("stockage");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowOpened(java.awt.event.WindowEvent evt) {
                 formWindowOpened(evt);
@@ -91,8 +74,6 @@ public class Interface_stocke extends javax.swing.JFrame {
         });
 
         jLabel1.setText("Produit slectionné : ");
-
-        prod_selected.setEditable(false);
 
         btn_stock.setText("Stocker");
         btn_stock.addActionListener(new java.awt.event.ActionListener() {
@@ -127,9 +108,9 @@ public class Interface_stocke extends javax.swing.JFrame {
 
         jLabel4.setText("Fornisseur : ");
 
-        jLabel5.setText("Reference du produit");
+        fourni.setEditable(false);
 
-        ref.setEditable(false);
+        jLabel5.setText("Reference du produit");
 
         jLabel6.setText("quanté en stock : ");
 
@@ -218,50 +199,45 @@ public class Interface_stocke extends javax.swing.JFrame {
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
         String produit = prod_selected.getText();
         int reference  = Integer.parseInt(ref.getText());
-        String Date    = sdf.format(Date_entree.getDate());
-        String qte     =  quantite.getText();
+        //String Date    = sdf.format(Date_entree.getDate());
+        //int qte     = Integer.parseInt(quantite.getText());
         String Fornis  = fourni.getText().toUpperCase();
-        String iidd = ref.getText();
+       
         
-               
-                String sql = "insert into produit_entree values ("+reference+",'"+produit+"','"+qte+"','"+Date+"','"+Fornis+"')";
-                String sql_upd = "update produit_entree set qte=qte+"+qte+",Date_entree='"+Date+"',fournisseur='"+Fornis+"' where id="+reference+" ";
+                
                 String sql_slc = "select * from produit_entree";
+                
+               
                 
             try {
                 
                 
-                 pst=cn.prepareStatement(sql);
-                 pst2=cn.prepareStatement(sql_upd);
-                   pst3=cn.prepareStatement(sql_slc);
-                   rs2=pst.executeQuery(sql_slc);
-                 rs2=pst3.executeQuery(sql_slc);
+                 pst=cn.prepareStatement(sql_slc);  
+                 rs=pst.executeQuery(sql_slc);
                  
-                 if (quantite.getText().equals("") ) {
+                 if (Date_entree.getDate()==null) {
+                     JOptionPane.showMessageDialog(null,"Veuillez entrer une date","Attention",JOptionPane.ERROR_MESSAGE);
+                 }else
+                 
+                  if (quantite.getText().equals("") ) {
                         JOptionPane.showMessageDialog(null,"Veuillez entrer une quantité","Attention",JOptionPane.ERROR_MESSAGE);
                        quantite.requestFocus();
-                 }
-                 
-                 else if (fourni.getText().equals("")) {
-                      JOptionPane.showMessageDialog(null,"Veuillez entrer un fournisseur","Attention",JOptionPane.ERROR_MESSAGE);
-                      fourni.requestFocus();
-                 
+                     
                  } else 
-                     if (rs2.next()) 
+                      
+                     if (rs.next()) 
                  {
-                         if ((rs2.getInt(1)==reference))
+                         if ((reference==reference))
                          {
-                           pst2.executeUpdate(sql_upd);
+                             int qte     = Integer.parseInt(quantite.getText());
+                             String Date    = sdf.format(Date_entree.getDate());
+                             String sql_upd = "update produit_entree set qte=qte+"+qte+",Date_entree='"+Date+"',fournisseur='"+Fornis+"' where id="+reference+"";
+                           pst.executeUpdate(sql_upd);
                            JOptionPane.showMessageDialog(null,"produit modifié");
                            tdp.setVisible(true);
                            this.dispose();
                          } 
-                         else {
-                          pst.executeUpdate(sql);
-             JOptionPane.showMessageDialog(null,"produit ajouté");
-             tdp.setVisible(true);
-             this.dispose();
-                        } 
+                         
             }
                     
     } catch (SQLException ex) {
@@ -273,7 +249,7 @@ public class Interface_stocke extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_stockActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        // TODO add your handling code here:
+        
     }//GEN-LAST:event_formWindowOpened
 
     private void quantiteKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_quantiteKeyTyped
@@ -344,7 +320,7 @@ public class Interface_stocke extends javax.swing.JFrame {
     private com.toedter.calendar.JDateChooser Date_entree;
     private javax.swing.JButton btn_reset;
     private javax.swing.JButton btn_stock;
-    private javax.swing.JTextField fourni;
+    public javax.swing.JTextField fourni;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;

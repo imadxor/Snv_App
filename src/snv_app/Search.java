@@ -10,13 +10,11 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 import net.proteanit.sql.DbUtils;
+
 
 
 /**
@@ -34,35 +32,34 @@ public class Search extends javax.swing.JFrame {
     
     public Search() {
         initComponents();
-        jLabel1.setVisible(false);
-        jLabel_sortie.setVisible(false);
-        setExtendedState(Tableau_de_produit.MAXIMIZED_BOTH);
+        setExtendedState(Search.MAXIMIZED_BOTH);
         tm=(DefaultTableModel)jTable1.getModel();
         
+        jLabel1.setVisible(false);
+        jLabel_sortie.setVisible(false);
+        jTextField1.setVisible(false);
+        
+        
         cn=Cnx.connect();
-                /*
+                
         String sql = "select produit_entree.id as 'Numero 1',produit_entree.Nom_prod as 'Nom de produit' ,produit_entree.qte as Quantité,Date_format(produit_entree.Date_entree,'%d-%m-%Y') as 'Date entree',Date_format(produit_sortie.Date_sortie,'%d-%m-%Y') from produit_entree join produit_sortie where produit_entree.Nom_prod=produit_sortie.Nom_prod" ;
-    
+               
         try {
             
             pst=cn.prepareStatement(sql);
             rs=pst.executeQuery();
             
-           // while (rs.next()) {
+            while (rs.next()) {
             jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-              //  tm.addRow(new Object[] {rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)});
+                tm.addRow(new Object[] {rs.getString(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5)});
                
-            //}
+            }
         }catch (SQLException ex) {
          Logger.getLogger(Tableau_de_produit.class.getName()).log(Level.SEVERE, null, ex);
-     }*/
+     }
     }
     
-    public void show_data () {
-        
-       
-    
-    }
+ 
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -73,20 +70,37 @@ public class Search extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel2 = new javax.swing.JLabel();
+        etatCmd = new javax.swing.JComboBox<>();
+        jLabel3 = new javax.swing.JLabel();
+        from = new com.toedter.calendar.JDateChooser();
+        jLabel4 = new javax.swing.JLabel();
+        to = new com.toedter.calendar.JDateChooser();
+        jButton1 = new javax.swing.JButton();
+        jTextField1 = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel_sortie = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
-        from = new com.toedter.calendar.JDateChooser();
-        to = new com.toedter.calendar.JDateChooser();
-        etatCmd = new javax.swing.JComboBox<>();
-        jLabel_sortie = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("chercher");
+
+        etatCmd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Entree", "Sortie" }));
+
+        jLabel3.setText("Date du début :");
+
+        from.setDateFormatString("dd/MM/yyyy");
+
+        jLabel4.setText("Date du fin ");
+
+        to.setDateFormatString("dd/MM/yyyy");
+
+        jButton1.setText("Chercher");
+
+        jLabel1.setText("Les entrées");
+
+        jLabel_sortie.setText("Les sorties");
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -97,182 +111,81 @@ public class Search extends javax.swing.JFrame {
             }
         ) {
             boolean[] canEdit = new boolean [] {
-                false, false, false, false, true
+                false, false, false, false, false
             };
 
             public boolean isCellEditable(int rowIndex, int columnIndex) {
                 return canEdit [columnIndex];
             }
         });
+        jTable1.setMinimumSize(new java.awt.Dimension(90, 0));
+        jTable1.setPreferredSize(new java.awt.Dimension(450, 0));
+        jTable1.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane1.setViewportView(jTable1);
-
-        from.setDateFormatString("dd/MM/yyyy");
-
-        to.setDateFormatString("dd/MM/yyyy");
-
-        etatCmd.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Entree", "Sortie" }));
-        etatCmd.addItemListener(new java.awt.event.ItemListener() {
-            public void itemStateChanged(java.awt.event.ItemEvent evt) {
-                etatCmdItemStateChanged(evt);
-            }
-        });
-
-        jLabel_sortie.setText("Les sorties");
-
-        jLabel1.setText("Les entrées");
-
-        jButton1.setText("Chercher");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jLabel3.setText("Date du début :");
-
-        jLabel4.setText("Date du fin ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(53, 53, 53)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(36, 36, 36)
-                        .addComponent(etatCmd, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(from, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel4)
-                        .addGap(18, 18, 18)
-                        .addComponent(to, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jButton1)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(114, 114, 114))))
+                .addGap(90, 90, 90)
+                .addComponent(etatCmd, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(387, 387, 387)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jLabel_sortie)
-                            .addComponent(jLabel1)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 903, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGap(10, 10, 10)
+                .addComponent(jLabel3)
+                .addGap(4, 4, 4)
+                .addComponent(from, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jLabel4)
+                .addGap(8, 8, 8)
+                .addComponent(to, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(24, 24, 24)
+                .addComponent(jButton1)
+                .addGap(53, 53, 53)
+                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(297, 297, 297)
+                .addComponent(jLabel1))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(302, 302, 302)
+                .addComponent(jLabel_sortie))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(20, 20, 20)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 672, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(etatCmd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
+                .addGap(11, 11, 11)
+                .addComponent(etatCmd, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(21, 21, 21)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(from, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jLabel3))
-                                .addComponent(jButton1))
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addComponent(jLabel4)
-                                .addComponent(to, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel3))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(8, 8, 8)
+                        .addGap(3, 3, 3)
+                        .addComponent(from, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
+                        .addComponent(jLabel4))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(3, 3, 3)
+                        .addComponent(to, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(7, 7, 7)
                         .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGap(6, 6, 6)
                 .addComponent(jLabel_sortie)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(57, Short.MAX_VALUE))
+                .addGap(39, 39, 39)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 211, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void etatCmdItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_etatCmdItemStateChanged
-       
-        String sql_entree = "select id as Numero,Nom_prod as 'Nom de produit',qte as Quantite,Date_format(Date_entree,'%d/%m/%Y') as 'Date entree',fournisseur as Fournisseur from produit_entree order by Nom_prod ";
-        String sql_sortie = "select produit_sortie.id as Numero,produit_sortie.Nom_prod as 'Nom de produit',produit_entree.qte as Quantite,Date_format(produit_sortie.Date_sortie,'%d/%m/%Y') as 'Date sortie',produit_sortie.fournisseur as Fournisseur from produit_sortie join produit_entree  where produit_entree.Nom_prod=produit_sortie.Nom_prod order by produit_sortie.Nom_prod ";
-        
-        String etat = etatCmd.getSelectedItem().toString();
-        
-        try {
-              
-        
-       switch (etat) {
-           
-           case "Entree":
-               pst=cn.prepareStatement(sql_entree);
-                 rs=pst.executeQuery();
-                 jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-                 
-               jLabel1.setVisible(true);
-               jLabel_sortie.setVisible(false);
-               break;
-           case "Sortie":
-                pst=cn.prepareStatement(sql_sortie);
-                 rs=pst.executeQuery();
-                 jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-                 
-               jLabel_sortie.setVisible(true);
-               jLabel1.setVisible(false);
-               break;
-           default:
-               jLabel_sortie.setVisible(false);
-               jLabel1.setVisible(false);
-               break;
-       }
-        }catch (SQLException ex) {
-         Logger.getLogger(Tableau_de_produit.class.getName()).log(Level.SEVERE, null, ex);
-     }
-        
-        
-    }//GEN-LAST:event_etatCmdItemStateChanged
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-         SimpleDateFormat sdf= new SimpleDateFormat("yyyy/MM/dd");
-         String Date_from = sdf.format(from.getDate());
-         String Date_to = sdf.format(to.getDate());
-         String eta = etatCmd.getSelectedItem().toString();
-         String selec_ent = "select id as Numero,Nom_prod as 'Nom de produit',qte as Quantite,Date_format(Date_entree,'%d/%m/%Y') as 'Date entree',fournisseur as Fournisseur from produit_entree where Date_entree between '"+Date_from+"' and '"+Date_to+"' order by Date_entree " ;
-         String selec_srt = "select id as Numero,Nom_prod as 'Nom de produit',qte as Quantite,Date_format(Date_sortie,'%d/%m/%Y') as 'Date entree',fournisseur as Fournisseur from produit_sortie where Date_sortie between '"+Date_from+"' and '"+Date_to+"' order by Date_sortie " ;
-         
-          try {
-              
-              if (eta.equals(" ")) {
-                   JOptionPane.showMessageDialog(null,"choiser une etat svp","Avr",JOptionPane.ERROR_MESSAGE);
-              
-              
-              
-          }else if (eta.equals("Entree")) {
-            
-            pst=cn.prepareStatement(selec_ent);
-            rs=pst.executeQuery();
-            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-              } else if (eta.equals("Sortie")) {
-                  pst=cn.prepareStatement(selec_srt);
-            rs=pst.executeQuery();
-            jTable1.setModel(DbUtils.resultSetToTableModel(rs));
-              }
-        }catch (SQLException ex) {
-         Logger.getLogger(Tableau_de_produit.class.getName()).log(Level.SEVERE, null, ex);
-     }
-        
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments

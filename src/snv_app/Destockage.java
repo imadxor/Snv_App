@@ -6,6 +6,7 @@
 package snv_app;
 
 import MesClasses.Cnx;
+import java.awt.event.FocusEvent;
 import java.awt.event.KeyEvent;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -57,6 +58,8 @@ public class Destockage extends javax.swing.JFrame {
         
         
     }
+    
+    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -127,6 +130,8 @@ public class Destockage extends javax.swing.JFrame {
 
         jLabel6.setText("Fournisseur");
 
+        fourni_des.setEditable(false);
+
         jMenu1.setText("Menu");
 
         jMenuItem1.setText("Tableau de produit");
@@ -153,11 +158,7 @@ public class Destockage extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(cache_qte, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(53, 53, 53)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel5)
@@ -181,7 +182,9 @@ public class Destockage extends javax.swing.JFrame {
                             .addComponent(qte_sortie)
                             .addComponent(qte_stk)
                             .addComponent(fourni_des))))
-                .addContainerGap(242, Short.MAX_VALUE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 148, Short.MAX_VALUE)
+                .addComponent(cache_qte, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(30, 30, 30))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -232,38 +235,34 @@ public class Destockage extends javax.swing.JFrame {
         SimpleDateFormat sdf= new SimpleDateFormat("yyyy-MM-dd");
         String produit  = prod_selected.getText();
         int reference   = Integer.parseInt(id_selected.getText());
-        String Date     = sdf.format(Date_sortie.getDate());
-        int    qte   = Integer.parseInt(qte_sortie.getText());
         int GetQnt   = Integer.parseInt(qte_stk.getText());
-        String fourni = fourni_des.getText();
                
-                String sql = "replace into produit_sortie values ("+reference+",'"+produit+"',"+qte+",'"+Date+"','"+fourni+"')";
-                String sqlupd = "update produit_entree set qte=qte-"+qte+",Date_entree='"+Date+"' where Nom_prod='"+produit+"' and id="+reference+" ";
-                
             try {
                 
-                 pst=cn.prepareStatement(sql);
-                 pst3=cn.prepareStatement(sqlupd); 
-                 
+                 if (Date_sortie.getDate()==null) {
+                    JOptionPane.showMessageDialog(null,"choisir une date","Attention",JOptionPane.ERROR_MESSAGE);  
+                 }else 
                  if ( qte_sortie.getText().equals("")) {
-                       JOptionPane.showMessageDialog(null,"Veuillez choisir une quantité","Attention",JOptionPane.ERROR_MESSAGE);
+                       JOptionPane.showMessageDialog(null,"Veuillez choisir une quantité svp","Attention",JOptionPane.ERROR_MESSAGE);
                        qte_sortie.requestFocus();
-                 }
+                 } else {
                  
-                 else if (GetQnt < qte) {
+                        int qte = Integer.parseInt(qte_sortie.getText());
+                        int i=0;
+                     for (i=0;i<1;i++) {
+                         if (qte>GetQnt) {
+                             JOptionPane.showMessageDialog(null,"la quantité que vous avez entre ("+qte+") est plus grande que la quantité en stock ("+GetQnt+") ","Attention",JOptionPane.ERROR_MESSAGE);
+                         qte_sortie.requestFocus();
+                         } else  {
+                              String    Date  = sdf.format(Date_sortie.getDate());
                      
-                     JOptionPane.showMessageDialog(null,"Quantité ('"+qte+"') supérieure à la quantité en stock ('"+GetQnt+"')","Opération impossible",JOptionPane.ERROR_MESSAGE);
-                       qte_sortie.requestFocus();
-                     
-                 }else {
-                 
-            
-            pst.executeUpdate(sql);  
+                String sqlupd = "update produit_entree set qte=qte-"+qte+",Date_entree='"+Date+"' where Nom_prod='"+produit+"' and id="+reference+" ";
+                      pst3=cn.prepareStatement(sqlupd);   
              pst3.executeUpdate(sqlupd);
              JOptionPane.showMessageDialog(null,"Opération terminée");
              tp.setVisible(true);
              this.dispose();
-                        }       
+                        } }}    
         
     } catch (SQLException ex) {
             Logger.getLogger(Interface_stocke.class.getName()).log(Level.SEVERE, null, ex);
@@ -271,26 +270,7 @@ public class Destockage extends javax.swing.JFrame {
     }//GEN-LAST:event_btn_desActionPerformed
 
     private void formWindowOpened(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowOpened
-        
-         String nom_pr = prod_selected.getText();
-        
-          String calc_get = "select id,Nom_prod from produit_entree where Nom_prod='"+nom_pr+"'";      
-                
-           try {
-             
-             
-             
-              pst2=cn.prepareStatement(calc_get);
-               rs2 = pst2.executeQuery();
-               
-               while (rs2.next()) {
-                   if (rs2.getString("Nom_prod").equals(nom_pr)) {
-                   id_selected.setText(""+rs2.getString("id"));
-               }}
-             
-         }catch (SQLException exp) {
-            Logger.getLogger(Interface_stocke.class.getName()).log(Level.SEVERE, null, exp);
-        }
+       
     }//GEN-LAST:event_formWindowOpened
 
     private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
