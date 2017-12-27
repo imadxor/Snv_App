@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  mer. 29 nov. 2017 à 22:55
+-- Généré le :  mer. 27 déc. 2017 à 21:26
 -- Version du serveur :  10.1.22-MariaDB
 -- Version de PHP :  7.0.18
 
@@ -43,9 +43,8 @@ CREATE TABLE `login` (
 --
 
 INSERT INTO `login` (`id`, `Nom`, `Prenom`, `Depar`, `login`, `pass`, `user_statut`) VALUES
-(1, '', '', '', 'admin', 'admin123', 'admin'),
-(2, '', '', '', 'user', 'user', 'user'),
-(3, 'jhgh', 'ghfg', 'Industrielle', 'gfdgdf', 'hgh', 'Administrateur');
+(16, 'chouaibi', 'imad', 'Industrielle', 'admin', 'admin', 'Administrateur'),
+(17, 'nifer', 'yassine', 'Industrielle', 'admin1', 'admin123', 'Utilisateur');
 
 -- --------------------------------------------------------
 
@@ -54,7 +53,7 @@ INSERT INTO `login` (`id`, `Nom`, `Prenom`, `Depar`, `login`, `pass`, `user_stat
 --
 
 CREATE TABLE `produit_entree` (
-  `id` int(11) NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
   `Nom_prod` varchar(32) NOT NULL,
   `qte` int(11) NOT NULL,
   `Date_entree` date NOT NULL,
@@ -66,14 +65,17 @@ CREATE TABLE `produit_entree` (
 --
 
 INSERT INTO `produit_entree` (`id`, `Nom_prod`, `qte`, `Date_entree`, `fournisseur`) VALUES
-(1, 'Produit 1', 250, '2017-11-04', 'KJK'),
+(9, 'k12', 0, '2017-12-31', 'UJU'),
+(10, 'K25', 99, '2017-12-03', 'IJIJ'),
+(1, 'Produit 1', -38, '2017-12-02', 'FGJG'),
 (2, 'Produit 2', 400, '2017-11-04', 'HHHH'),
-(3, 'Produit 3', 120, '2017-11-03', 'JKH'),
-(5, 'Produit 4', 294852, '2017-11-18', '45'),
-(4, 'Produit 5', 2121, '2017-11-11', '45'),
-(8, 'Produit 6', 120, '2017-11-27', 'BABY'),
-(7, 'Produit 7', 211, '2017-11-11', 'KLJJ'),
-(6, 'Produit 8', 10, '2017-11-04', 'DFGH');
+(3, 'Produit 3', 200, '2017-12-01', 'TOTALE'),
+(5, 'Produit 4', 0, '2017-12-02', '45'),
+(4, 'Produit 5', 0, '2017-12-02', '45'),
+(8, 'Produit 6', 0, '2017-12-10', 'FGFG'),
+(7, 'Produit 7', 100, '2017-12-17', 'JHJJ'),
+(6, 'Produit 8', 300, '2017-12-31', 'IMAD'),
+(11, 'SACS KAKI', 120, '2017-12-03', 'snv');
 
 -- --------------------------------------------------------
 
@@ -82,18 +84,27 @@ INSERT INTO `produit_entree` (`id`, `Nom_prod`, `qte`, `Date_entree`, `fournisse
 --
 
 CREATE TABLE `produit_sortie` (
-  `id` int(10) UNSIGNED ZEROFILL NOT NULL,
+  `id` int(11) UNSIGNED NOT NULL,
   `Nom_prod` varchar(32) NOT NULL,
   `qte` int(6) NOT NULL,
-  `Date_sortie` date NOT NULL
+  `Date_sortie` date NOT NULL,
+  `fournisseur` varchar(32) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Déchargement des données de la table `produit_sortie`
 --
 
-INSERT INTO `produit_sortie` (`id`, `Nom_prod`, `qte`, `Date_sortie`) VALUES
-(0000000002, 'Produit 2 ', 100, '2017-11-17');
+INSERT INTO `produit_sortie` (`id`, `Nom_prod`, `qte`, `Date_sortie`, `fournisseur`) VALUES
+(1, 'Produit 1', 234, '2017-12-02', 'FGJG'),
+(2, 'Produit 2 ', 100, '2017-11-17', ''),
+(3, 'Produit 3', 2000, '2017-12-02', ''),
+(4, 'Produit 5', 120, '2017-12-08', ''),
+(5, 'Produit 4', 294000, '2017-12-09', ''),
+(6, 'Produit 8', 200, '2017-12-09', 'IMAD'),
+(7, 'Produit 7', 200, '2017-12-16', ''),
+(8, 'Produit 6', 30, '2017-12-09', ''),
+(9, 'k12', 70, '2017-12-29', 'ooooo');
 
 --
 -- Index pour les tables déchargées
@@ -116,7 +127,8 @@ ALTER TABLE `produit_entree`
 -- Index pour la table `produit_sortie`
 --
 ALTER TABLE `produit_sortie`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `Nom_prod` (`Nom_prod`);
 
 --
 -- AUTO_INCREMENT pour les tables déchargées
@@ -126,7 +138,17 @@ ALTER TABLE `produit_sortie`
 -- AUTO_INCREMENT pour la table `login`
 --
 ALTER TABLE `login`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;COMMIT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+--
+-- Contraintes pour les tables déchargées
+--
+
+--
+-- Contraintes pour la table `produit_sortie`
+--
+ALTER TABLE `produit_sortie`
+  ADD CONSTRAINT `Nom_prod` FOREIGN KEY (`Nom_prod`) REFERENCES `produit_entree` (`Nom_prod`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
